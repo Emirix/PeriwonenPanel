@@ -1,3 +1,5 @@
+<?php ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,6 +18,7 @@
 </head>
 
 <body>
+
     <div id="preloader">
         <div class="sk-three-bounce">
             <div class="sk-child sk-bounce1"></div>
@@ -119,35 +122,48 @@
                                 <h4 class="card-title">Kullanıcı Bilgileri</h4>
                             </div>
                             <div class="card-body">
-                                <form class="form-valide" action="#" method="post">
+                                <form enctype="multipart/form-data" method="post" class="form-valide" action="<?php 
+                                if(isset($_GET["id"])){
+                                    echo base_url("/reseller/apiupdatereseller");
+                                }else{
+                                    echo base_url("/reseller/apicreatereseller");
+                                }
+                                ?>" method="post">
                                     <div class="basic-form">
+                                    <input type="hidden" value="<?php if(isset($_GET["id"])){ echo $_GET["id"];} ?>" name="id">
                                         <div class="form-row">
+                                        <?php if (isset($_GET["id"])) { ?>
+                                        <div class="form-group col-md-12">
+                                                <label>DÜZENLENEN ID <span class="text-danger">*</span></label>
+                                                <div><input type="text" disabled="true" value="<?php echo $_GET["id"] ?>"  id="val-adsoyad" name="val-adsoyad" placeholder="Ad Soyad"></div>
+                                        </div>
+                                        <?php } ?>
                                             <div class="form-group col-md-12">
                                                 <label>Ad Soyad <span class="text-danger">*</span></label>
-                                                <div><input type="text" class="form-control" id="val-adsoyad" name="val-adsoyad" placeholder="Ad Soyad"></div>
+                                                <div><input value="<?php if(isset($_GET["id"])){ echo $_GET["ad_soyad"];} ?>" type="text" class="form-control" id="val-adsoyad" name="val-adsoyad" placeholder="Ad Soyad"></div>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label  for="val-phone">Telefon 1 <span class="text-danger">*</span></label>
-                                                <div><input type="text" class="form-control" id="val-phone" name="val-phone" placeholder="000-000-0000"></div>
+                                                <div><input value="<?php if(isset($_GET["id"])){ echo $_GET["telefon1"];} ?>" type="text" class="form-control" id="val-phone" name="val-phone" placeholder="000-000-0000"></div>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>Telefon 2</label>
-                                                <input type="tel" class="form-control" placeholder="0000000">
+                                                <input  value="<?php if(isset($_GET["id"])){ echo $_GET["telefon2"];} ?>"type="tel" class="form-control" placeholder="0000000" name="val-phone2">
                                             </div>
                                             <div class="form-group col-md-6 userpp">
                                                 <label>Fotoğraf seç</label>
-                                                <input type="file" class="fotografsec form-control">
+                                                <input type="file" class="fotografsec form-control" name="userfile" >
                                             </div>
                                         </div>
                                     </div>
                                     <div class="basic-form">
                                         <div class="form-group">
-                                            <label class="text-label" for="val-email">E-Posta <span class="text-danger">*</span></label>
+                                            <label class="text-label" value="<?php if(isset($_GET["id"])){ echo $_GET["eposta"];} ?>" for="val-email">E-Posta <span class="text-danger">*</span></label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                                                 </div>
-                                                <input type="text" class="form-control" id="val-email" name="val-email" placeholder="Geçerli bir e-posta adresi yazınız..">
+                                                <input type="text " value="<?php if(isset($_GET["id"])){ echo $_GET["eposta"];} ?>"  class="form-control" id="val-email" name="val-email" placeholder="Geçerli bir e-posta adresi yazınız..">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -156,7 +172,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                                                 </div>
-                                                <input type="password" class="form-control" id="dz-password" name="val-password" placeholder="Korunaklı bir şifre giriniz.">
+                                                <input value="<?php if(isset($_GET["id"])){ echo $_GET["sifre"];} ?>" type="password" class="form-control" id="dz-password" name="val-password" placeholder="Korunaklı bir şifre giriniz.">
                                                 <div class="input-group-append show-pass ">
                                                     <span class="input-group-text "> 
                                                         <i class="fa fa-eye-slash"></i>
@@ -166,10 +182,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="form-check">
-                                                <input id="checkbox1" class="form-check-input" type="checkbox">
-                                                <label for="checkbox1" class="form-check-label">Kontrol et</label>
-                                            </div>
+
                                         </div>
                                         <button type="submit" class="btn mr-2 btn-primary">Tamamla</button>
                                         <button type="submit" class="btn btn-light">İptal</button>
@@ -202,6 +215,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                <?php foreach($magazalar as $magaza) { ?>
                                                     <tr>
                                                         <td>
                                                             <div class="custom-control custom-checkbox checkbox-primary check-lg mr-3">
@@ -209,16 +223,17 @@
                                                                 <label class="custom-control-label" for="customCheckBox2"></label>
                                                             </div>
                                                         </td>
-                                                        <td><strong>000</strong></td>
+                                                        <td><strong><?php echo $magaza["id"] ?></strong></td>
                                                         <td>
                                                             <div class="d-flex align-items-center">
                                                                 <img src="images/avatar/1.jpg" class="rounded-lg mr-2" width="24" alt=""/> 
-                                                                <span class="w-space-no">Ad Soyad</span>
+                                                                <span class="w-space-no"><?php echo $magaza["ad_soyad"] ?></span>
                                                             </div>
                                                         </td>
-                                                        <td>Mağaza Adı</td>
-                                                        <td>example@example.com</td>
+                                                        <td><?php echo $magaza["magaza_adi"] ?></td>
+                                                        <td><?php echo $magaza["eposta"] ?></td>
                                                     </tr>
+                                                <?php } ?>
                                                 </tbody>
                                             </table>
                                         </form>

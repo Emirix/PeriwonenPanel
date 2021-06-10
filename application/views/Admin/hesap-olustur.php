@@ -66,7 +66,7 @@
 						</a>
                         <ul aria-expanded="false">
                         <li><a href="<?php echo base_url("admin/createaccount") ?>">Hesap Oluştur</a></li>
-							<li><a href="<?php echo base_url("admin/allaccounts") ?>">Tüm Hesaplar</a></li>
+							<li><a href="<?php echo base_url("admin/allaccount") ?>">Tüm Hesaplar</a></li>
              
                         </ul>
                     </li>

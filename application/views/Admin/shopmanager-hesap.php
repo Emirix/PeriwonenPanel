@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>panel</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="./images/panel.ico">
-	<link href="./vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
-    <link href="./css/style.css" rel="stylesheet">
-    <link href="./css/fotografsec.scss" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?php  echo base_url("assets/admin/images/panel.ico")?>">
+	<link href="<?php  echo base_url("assets/admin/vendor/bootstrap-select/dist/css/bootstrap-select.min.css") ?> " rel="stylesheet">
+    <link href="<?php  echo base_url("assets/admin/css/style.css") ?> " rel="stylesheet">
+    <link href="<?php  echo base_url("assets/admin/css/fotografsec.scss")?>" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 </head>
 
@@ -65,9 +65,9 @@
 							<span class="nav-text">Hesap Yönetimi</span>
 						</a>
                         <ul aria-expanded="false">
-							<li><a href="hesap-olustur.php">Hesap Oluştur</a></li>
-							<li><a href="tum-hesaplar.php">Tüm Hesaplar</a></li>
-                            <li><a href="shopmanager-hesap.php" style="color: green;">Shop Manager Oluştur/Düzenle</a></li>
+                        <li><a href="<?php echo base_url("admin/createaccount") ?>">Hesap Oluştur</a></li>
+							<li><a href="<?php echo base_url("admin/allaccount") ?>">Tüm Hesaplar</a></li>
+                     <li><a href="<?php echo base_url("admin/createmanager") ?>" style="color: green;">Shop Manager Oluştur/Düzenle</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
@@ -118,44 +118,54 @@
                                 <h4 class="card-title">Kullanıcı Bilgileri</h4>
                             </div>
                             <div class="card-body">
-                                <form class="form-valide" action="#" method="post">
+                                <form  enctype="multipart/form-data" class="form-valide" action="<?php 
+                                if(isset($_GET["edit"])){
+                                    echo base_url("shopmanager/updateaccount");
+                                }else{
+                                    echo base_url("shopmanager/addaccount");
+                                }
+                                ?>" method="post">
+                                    <?php if(isset($_GET["edit"])) { ?> 
+                                        <h4 class="text-info">ŞUANDA EDİT MODUNDASINIZ. ID: <?php echo $_GET["id"] ?></h4>
+                                        <input type="hidden" value="<?php echo $_GET["id"] ?>" name="id">
+                                    <?php } ?>
                                     <div class="basic-form">
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label>Ad Soyad <span class="text-danger">*</span></label>
-                                                <div><input type="text" class="form-control" id="val-adsoyad" name="val-adsoyad" placeholder="Ad Soyad"></div>
+                                                <div><input value="<?php if(isset($_GET["edit"])) { echo $_GET["ad_soyad"]; }?>" type="text" class="form-control" id="val-adsoyad" name="val-adsoyad" placeholder="Ad Soyad"></div>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>Mağaza Adı <span class="text-danger">*</span></label>
-                                                <div><input type="text" class="form-control" id="val-magaza" name="val-magaza" placeholder="Mağaza Adı"></div>
+                                                <div><input value="<?php if(isset($_GET["edit"])) { echo $_GET["magaza_adi"] ; }?>" type="text" class="form-control" id="val-magaza" name="val-magaza" placeholder="Mağaza Adı"></div>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label  for="val-phone">Telefon 1 <span class="text-danger">*</span></label>
-                                                <div><input type="text" class="form-control" id="val-phone" name="val-phone" placeholder="000-000-0000"></div>
+                                                <div><input value="<?php  if(isset($_GET["edit"])) { echo $_GET["telefon1"] ; }?>" type="text" class="form-control" id="val-phone" name="val-phone" placeholder="000-000-0000"></div>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>Telefon 2</label>
-                                                <input type="tel" class="form-control" placeholder="0000000">
+                                                <input value="<?php if(isset($_GET["edit"])) { echo $_GET["telefon2"] ; }?>" type="tel" class="form-control" placeholder="0000000" name="val-phone2">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="val-website">Website <span class="text-danger">*</span></label>
-                                                <div><input type="text" class="form-control" id="val-website" name="val-website" placeholder="http://example.com"></div>
+                                                <div><input value="<?php if(isset($_GET["edit"])) { echo $_GET["website"] ; }?>" type="text" class="form-control" id="val-website" name="val-website" placeholder="http://example.com"></div>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="val-website">KvK <span class="text-danger">*</span></label>
-                                                <div><input type="text" class="form-control" id="val-kvk" name="val-kvk" placeholder="KvK Numarası"></div>
+                                                <div><input value="<?php if(isset($_GET["edit"])) { echo $_GET["kvk"] ; }?>" type="text" class="form-control" id="val-kvk" name="val-kvk" placeholder="KvK Numarası"></div>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="val-website" for="val-currency">Alışveriş Limiti <span class="text-danger">*</span></label>
-                                                <div><input type="text" class="form-control" id="val-currency" name="val-currency" placeholder="€50.000"></div>
+                                                <div><input value="<?php if(isset($_GET["edit"])) { echo $_GET["para_limit"] ; }?>" type="text" class="form-control" id="val-currency" name="val-currency" placeholder="€50.000"></div>
                                             </div>
                                             <div class="form-group col-md-6 userpp">
                                                 <label>Fotoğraf seç</label>
-                                                <input type="file" class="fotografsec form-control">
+                                                <input type="file" name="userfile" id="userfile" class="fotografsec form-control">
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <label for="val-website" for="val-magaza-adres">Mağaza Adresi <span class="text-danger">*</span></label>
-                                                <div><textarea class="form-control" id="val-magaza-adres" name="val-magaza-adres" rows="5" placeholder="Mağazanın adresi.."></textarea></div>
+                                                <div><textarea value="<?php if(isset($_GET["edit"])) { echo $_GET["adres"] ; }?>" class="form-control" id="val-magaza-adres" name="val-magaza-adres" rows="5" placeholder="Mağazanın adresi.."></textarea></div>
                                             </div>
                                         </div>
                                     </div>
@@ -166,7 +176,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                                                 </div>
-                                                <input type="text" class="form-control" id="val-email" name="val-email" placeholder="Geçerli bir e-posta adresi yazınız..">
+                                                <input value="<?php if(isset($_GET["edit"])) { echo $_GET["eposta"] ; }?>" type="text" class="form-control" id="val-email" name="val-email" placeholder="Geçerli bir e-posta adresi yazınız..">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -175,7 +185,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                                                 </div>
-                                                <input type="password" class="form-control" id="dz-password" name="val-password" placeholder="Korunaklı bir şifre giriniz.">
+                                                <input value="<?php if(isset($_GET["edit"])) { echo $_GET["sifre"] ; }?>" type="password" class="form-control" id="dz-password" name="val-password" placeholder="Korunaklı bir şifre giriniz.">
                                                 <div class="input-group-append show-pass ">
                                                     <span class="input-group-text "> 
                                                         <i class="fa fa-eye-slash"></i>
@@ -184,14 +194,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="form-check">
-                                                <input id="checkbox1" class="form-check-input" type="checkbox">
-                                                <label for="checkbox1" class="form-check-label">Kontrol et</label>
-                                            </div>
-                                        </div>
+
                                         <button type="submit" class="btn mr-2 btn-primary">Tamamla</button>
-                                        <button type="submit" class="btn btn-light">İptal</button>
+                                        <button  class="btn btn-light">İptal</button>
                                     </div>
                                 </form>
                             </div>
@@ -213,7 +218,7 @@
     <script src="<?php echo base_url("assets/admin/js/custom.min.js") ?> "></script>
 	<script src="<?php echo base_url("assets/admin/js/deznav-init.js") ?> "></script>
     <script src="<?php echo base_url("assets/admin/vendor/dropzone/dist/dropzone.js") ?> "></script>
-    <script src="<?php echo base_url("assets/admin/vendor/jquery-validation/jquery.validate.min.js") ?> "></script>
+    <!-- <script src="<?php // echo base_url("assets/admin/vendor/jquery-validation/jquery.validate.min.js") ?> "></script> -->
     <script src="<?php echo base_url("assets/admin/js/plugins-init/jquery.validate-init.js") ?> "></script>
 
 	<script>
